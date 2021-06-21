@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Backgrounds">
+
+    <Button
+        android:id="@+id/brightThemeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bright Theme"
+        app:layout_constraintBottom_toTopOf="@+id/darkThemeButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/darkThemeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dark Theme"
+        app:layout_constraintBottom_toTopOf="@id/springThemebutton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/brightThemeButton" />
+
+    <Button
+        android:id="@+id/springThemebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spring Theme"
+        app:layout_constraintBottom_toTopOf="@id/winterThemebutton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/darkThemeButton" />
+
+    <Button
+        android:id="@+id/winterThemebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Winter Theme"
+        app:layout_constraintBottom_toTopOf="@id/fallThemeButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/springThemebutton" />
+
+    <Button
+        android:id="@+id/fallThemeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fall Theme"
+        app:layout_constraintBottom_toTopOf="@id/summerThemeButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/winterThemebutton" />
+
+    <Button
+        android:id="@+id/summerThemeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Summer Theme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fallThemeButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

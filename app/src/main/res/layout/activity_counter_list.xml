@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CounterListActivity">
+
+    <ListView
+        android:id="@+id/CountersListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/HG75"
+        app:layout_constraintLeft_toLeftOf="@id/VG5"
+        app:layout_constraintRight_toRightOf="@id/VG95"
+        app:layout_constraintTop_toBottomOf="@id/HG5" />
+
+    <Button
+        android:id="@+id/addCounterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add a\n Counter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/VG5"
+        app:layout_constraintRight_toLeftOf="@id/deleteCounterButton"
+        app:layout_constraintTop_toBottomOf="@id/HG75" />
+
+    <Button
+        android:id="@+id/deleteCounterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Selected\nCounter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/addCounterButton"
+        app:layout_constraintRight_toLeftOf="@id/VG95"
+        app:layout_constraintTop_toBottomOf="@id/HG75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/HG75"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/VG5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/VG95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/HG5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".05" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
