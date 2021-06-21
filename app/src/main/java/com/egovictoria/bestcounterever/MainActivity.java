@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,16 +17,23 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "BestCounter/main";
     private Button newCounter, loadCounter, settings;
     private ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "attempting on create in main");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.i(TAG, "app started");
+
         //Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        Log.i(TAG, "window without title requested");
 
         // initialize views
         newCounter = findViewById(R.id.newCounterButton);
@@ -33,13 +41,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settings = findViewById(R.id.settingsButton);
         layout = findViewById(R.id.mainActivityLayout);
 
+        Log.i(TAG, "views initialized");
+
         newCounter.setOnClickListener(this);
         loadCounter.setOnClickListener(this);
         settings.setOnClickListener(this);
 
+        Log.i(TAG, "on click listeners set");
+
         // initialize appConstants, also generate the SharedPreferences object
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         AppConstants.initialize(prefs);
+
+        Log.i(TAG, "app constants initialized");
 
         // set aesthetic settings
         if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
@@ -53,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
         settings.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
         settings.setTextColor(Color.parseColor(AppConstants.TextColor));
+
+        Log.i(TAG, "aesthetics set");
     }
 
     @Override
@@ -62,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "Make class for loading counters, also make a way to" +
                     " save counters", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.newCounterButton) {
-            Toast.makeText(this, "creating new counter set", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, CounterListActivity.class));
         } else if (id == R.id.settingsButton) {
             startActivity(new Intent(this, SettingsActivity.class));
