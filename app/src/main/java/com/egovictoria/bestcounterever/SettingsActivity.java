@@ -40,23 +40,17 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id) {
-            case R.id.selectBackgroundOptionButton:
-                Toast.makeText(this, "Add in backgrounds", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.selectFancyBorderButton:
-                Toast.makeText(this, "Add in fancy borders", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.CounterOptionsButton:
-                Toast.makeText(this, "Add counter options activity", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.counterListOptionsButton:
-                Toast.makeText(this, "Add counter list options activity", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.toMainMenuFromSettingsMenuButton:
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-                break;
+        if (id == R.id.selectBackgroundOptionButton) {
+            startActivity(new Intent(this, Backgrounds.class));
+        } else if (id == R.id.selectFancyBorderButton) {
+            Toast.makeText(this, "This is being added soon!", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.CounterOptionsButton) {
+            Toast.makeText(this, "Add counter options activity", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.counterListOptionsButton) {
+            Toast.makeText(this, "Add counter list options activity", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.toMainMenuFromSettingsMenuButton) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
 
     }

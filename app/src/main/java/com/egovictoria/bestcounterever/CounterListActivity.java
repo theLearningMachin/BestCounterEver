@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -26,6 +27,10 @@ public class CounterListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_counter_list);
 
+        //Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        // initialize views
         addCounter = findViewById(id.addCounterButton);
         deleteCounter = findViewById(id.deleteCounterButton);
         counterListView = findViewById(id.CountersListView);
