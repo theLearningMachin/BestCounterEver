@@ -25,7 +25,7 @@
         android:padding="8dp"
         android:text="Add a\n Counter"
         android:textColor="@color/baseText"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/toMainMenuFromCountersList"
         app:layout_constraintLeft_toRightOf="@id/VG5"
         app:layout_constraintRight_toLeftOf="@id/deleteCounterButton"
         app:layout_constraintTop_toBottomOf="@id/HG75" />
@@ -38,10 +38,36 @@
         android:padding="8dp"
         android:text="Delete Selected\nCounter"
         android:textColor="@color/baseText"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/saveCounterSetButton"
         app:layout_constraintLeft_toRightOf="@id/addCounterButton"
         app:layout_constraintRight_toLeftOf="@id/VG95"
         app:layout_constraintTop_toBottomOf="@id/HG75" />
+
+    <Button
+        android:id="@+id/toMainMenuFromCountersList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/baseButtons"
+        android:padding="8dp"
+        android:text="Main Menu"
+        android:textColor="@color/baseText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/VG5"
+        app:layout_constraintRight_toLeftOf="@id/saveCounterSetButton"
+        app:layout_constraintTop_toBottomOf="@id/addCounterButton" />
+
+    <Button
+        android:id="@+id/saveCounterSetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/baseButtons"
+        android:padding="8dp"
+        android:text="Save Counters"
+        android:textColor="@color/baseText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/toMainMenuFromCountersList"
+        app:layout_constraintRight_toLeftOf="@id/VG95"
+        app:layout_constraintTop_toBottomOf="@id/deleteCounterButton" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/HG75"
@@ -70,5 +96,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".05" />
+
+    <ImageView
+        android:id="@+id/counterListImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

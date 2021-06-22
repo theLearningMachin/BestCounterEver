@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     background.setBackgroundColor(Color.parseColor((String) AppConstants.Background));
                 } else {
                     background.setImageResource((Integer) AppConstants.Background);
-                    background.setScaleType(ImageView.ScaleType.FIT_XY);
                 }
 
                 newCounter.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
@@ -88,8 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     " save counters", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.newCounterButton) {
             startActivity(new Intent(this, CounterListActivity.class));
+            finish();
         } else if (id == R.id.settingsButton) {
             startActivity(new Intent(this, SettingsActivity.class));
+            finish();
         }
     }
 }
