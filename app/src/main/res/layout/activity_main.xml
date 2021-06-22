@@ -2,17 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/mainActivityLayout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/baseBackground"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loadCounterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/baseButtons"
         android:padding="35dp"
         android:text="Load Counter"
+        android:textColor="@color/baseText"
         android:textSize="38sp"
         app:layout_constraintBottom_toTopOf="@+id/newCounterButton"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -23,8 +26,10 @@
         android:id="@+id/newCounterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/baseButtons"
         android:padding="35dp"
         android:text="New Counter"
+        android:textColor="@color/baseText"
         android:textSize="38sp"
         app:layout_constraintBottom_toTopOf="@+id/settingsButton"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -35,12 +40,23 @@
         android:id="@+id/settingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/baseButtons"
         android:padding="35dp"
         android:text="Settings"
+        android:textColor="@color/baseText"
         android:textSize="38sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newCounterButton" />
+
+    <ImageView
+        android:id="@+id/mainImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

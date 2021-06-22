@@ -13,7 +13,7 @@ public class AppConstants {
     // public objects
     public static int standardDeviation;
     public static String ButtonColor;
-    public static String Background;
+    public static Object Background;
     public static String TextColor;
     public static SharedPreferences prefs;
 
@@ -21,6 +21,10 @@ public class AppConstants {
         prefs = p;
         if (prefs.getInt(SDKey, 0) == 0) {
             standardDeviation = 1;
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(SDKey, standardDeviation);
+            editor.apply();
+
         } else {
             standardDeviation = prefs.getInt(SDKey, 0);
             SharedPreferences.Editor editor = prefs.edit();
@@ -33,6 +37,7 @@ public class AppConstants {
             setBrightTheme();
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(themeKey, "bright");
+            editor.apply();
         } else {
             String theme = prefs.getString(themeKey, null);
             switch (theme) {
@@ -74,22 +79,22 @@ public class AppConstants {
     }
     public static void setWinterTheme(){
         ButtonColor = "#7ADBD7";
-        Background = "@drawable/winter_scene.png";
+        Background = R.drawable.winter_scene;
         TextColor = "#000000";
     }
     public static void setFallTheme(){
         ButtonColor = "#AF98D5";
-        Background = "@drawable/fall_scene.png";
+        Background = R.drawable.fall_scene;
         TextColor = "#000000";
     }
     public static void setSpringTheme(){
         ButtonColor = "#CEBC60";
-        Background = "@drawable/spring_scene.jpg";
+        Background = R.drawable.spring_scene;
         TextColor = "#000000";
     }
     public static void setSummerTheme(){
         ButtonColor = "#C899E8";
-        Background = "@drawable/summer_scene.jpg";
+        Background = R.drawable.summer_scene;
         TextColor = "#000000";
     }
 }

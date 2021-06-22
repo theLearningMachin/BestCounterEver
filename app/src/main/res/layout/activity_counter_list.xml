@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/counterListActivityLayout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/baseBackground"
     tools:context=".CounterListActivity">
 
     <ListView
@@ -20,7 +21,10 @@
         android:id="@+id/addCounterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/baseButtons"
+        android:padding="8dp"
         android:text="Add a\n Counter"
+        android:textColor="@color/baseText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/VG5"
         app:layout_constraintRight_toLeftOf="@id/deleteCounterButton"
@@ -30,7 +34,10 @@
         android:id="@+id/deleteCounterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/baseButtons"
+        android:padding="8dp"
         android:text="Delete Selected\nCounter"
+        android:textColor="@color/baseText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/addCounterButton"
         app:layout_constraintRight_toLeftOf="@id/VG95"

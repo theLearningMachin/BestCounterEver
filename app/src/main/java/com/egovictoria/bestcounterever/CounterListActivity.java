@@ -25,10 +25,8 @@ public class CounterListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_counter_list);
-
-        //Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(layout.activity_counter_list);
 
         // initialize views
         addCounter = findViewById(id.addCounterButton);

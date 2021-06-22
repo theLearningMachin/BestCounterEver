@@ -13,33 +13,30 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "BestCounter/main";
     private Button newCounter, loadCounter, settings;
-    private ConstraintLayout layout;
+    private ImageView background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "attempting on create in main");
-
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
         Log.i(TAG, "app started");
-
-        //Remove title bar
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        Log.i(TAG, "window without title requested");
 
         // initialize views
         newCounter = findViewById(R.id.newCounterButton);
         loadCounter = findViewById(R.id.loadCounterButton);
         settings = findViewById(R.id.settingsButton);
-        layout = findViewById(R.id.mainActivityLayout);
+        background = findViewById(R.id.mainImageView);
 
         Log.i(TAG, "views initialized");
 
@@ -55,18 +52,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.i(TAG, "app constants initialized");
 
+        String theme = prefs.getString(AppConstants.themeKey, null);
+        int SD = prefs.getInt(AppConstants.SDKey, 0);
+
+        Log.i(TAG, "shared preferences: \nTheme: " + theme + "\nStandardDeviation: " + SD);
+
         // set aesthetic settings
-        if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
-            layout.setBackgroundColor(Color.parseColor(AppConstants.Background));
-        } else {
-            layout.setBackground(Drawable.createFromPath(AppConstants.Background));
-        }
-        newCounter.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-        newCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
-        loadCounter.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-        loadCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
-        settings.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-        settings.setTextColor(Color.parseColor(AppConstants.TextColor));
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
+                    background.setBackgroundColor(Color.parseColor((String) AppConstants.Background));
+                } else {
+                    background.setImageResource((Integer) AppConstants.Background);
+                    background.setScaleType(ImageView.ScaleType.FIT_XY);
+                }
+
+                newCounter.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                newCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
+                loadCounter.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                loadCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
+                settings.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                settings.setTextColor(Color.parseColor(AppConstants.TextColor));
+            }
+        });
 
         Log.i(TAG, "aesthetics set");
     }
