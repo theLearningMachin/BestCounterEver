@@ -1,6 +1,7 @@
 package com.egovictoria.bestcounterever;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,6 +98,15 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
             }
         });
         holder.checkBox.setChecked(false);
+
+        // aesthetics
+        holder.count.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+        holder.count.setTextColor(Color.parseColor(AppConstants.TextColor));
+        holder.plus.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+        holder.plus.setTextColor(Color.parseColor(AppConstants.TextColor));
+        holder.minus.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+        holder.minus.setTextColor(Color.parseColor(AppConstants.TextColor));
+
 
         return view;
     }
