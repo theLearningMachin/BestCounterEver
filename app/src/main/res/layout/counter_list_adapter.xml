@@ -7,19 +7,36 @@
     android:orientation="horizontal">
 
     <TextView
+        android:id="@+id/adapterTextViewName"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/adapterTextViewCount"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/adapterButtonMinus"
+        app:layout_constraintRight_toRightOf="@+id/adapterButtonPlus"
+        android:textColor="@color/baseText"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:background="@color/baseButtons"
+        android:elevation="1dp"
+        android:padding="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
         android:id="@+id/adapterTextViewCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/baseButtons"
-        android:elevation="1dp"
-        android:padding="10dp"
         android:text="42"
         android:textColor="@color/baseText"
-        android:textSize="36sp"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:background="@color/baseButtons"
+        android:elevation="1dp"
+        android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/adapterButtonMinus"
         app:layout_constraintRight_toLeftOf="@id/adapterButtonPlus"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/adapterTextViewName" />
 
     <CheckBox
         android:id="@+id/adapterCheckBox"
@@ -38,6 +55,7 @@
         android:id="@+id/adapterButtonPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:background="@color/baseButtons"
         android:elevation="1dp"
         android:text="+"
@@ -49,6 +67,7 @@
 
     <Button
         android:id="@+id/adapterButtonMinus"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"

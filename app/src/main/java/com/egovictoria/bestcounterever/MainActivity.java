@@ -3,19 +3,30 @@ package com.egovictoria.bestcounterever;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -59,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // set aesthetic settings
         MainActivity.this.runOnUiThread(new Runnable() {
+            @SuppressLint("ResourceType")
             @Override
             public void run() {
                 if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
@@ -67,11 +79,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     background.setImageResource((Integer) AppConstants.Background);
                 }
 
-                newCounter.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                Drawable bg = getDrawable(R.drawable.rounded_corners_rectangle);
+                bg.setColorFilter(Color.parseColor(AppConstants.ButtonColor), PorterDuff.Mode.SRC_OVER);
+
+                newCounter.setBackground(bg);
                 newCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
-                loadCounter.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                loadCounter.setBackground(bg);
                 loadCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
-                settings.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                settings.setBackground(bg);
                 settings.setTextColor(Color.parseColor(AppConstants.TextColor));
             }
         });

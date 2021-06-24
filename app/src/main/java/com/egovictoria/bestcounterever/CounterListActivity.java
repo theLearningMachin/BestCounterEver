@@ -42,11 +42,12 @@ public class CounterListActivity extends AppCompatActivity {
         background = findViewById(id.counterListImageView);
 
         // get the list of counters
-        int[] intentCounters = getIntent().getIntArrayExtra("counters");
+        int[] counterValues = getIntent().getIntArrayExtra("counterValues");
+        String[] counterNames = getIntent().getStringArrayExtra("counterNames");
         counters = new ArrayList<Counter>();
-        if (intentCounters != null) {
-            for(int i = 0; i < intentCounters.length; i++) {
-                counters.add(new Counter(intentCounters[i]));
+        if (counterValues != null) {
+            for(int i = 0; i < counterValues.length; i++) {
+                counters.add(new Counter(counterValues[i], counterNames[i]));
             }
         }
 

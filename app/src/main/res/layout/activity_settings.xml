@@ -13,66 +13,40 @@
         android:id="@+id/selectBackgroundOptionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/baseButtons"
+        android:background="@drawable/rounded_corners_rectangle"
         android:padding="8dp"
         android:text="Select Theme"
         android:textColor="@color/baseText"
-        app:layout_constraintBottom_toTopOf="@+id/selectFancyBorderButton"
+        app:layout_constraintBottom_toTopOf="@+id/CounterOptionsButton"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/selectFancyBorderButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/baseButtons"
-        android:padding="8dp"
-        android:text="Select Fancy Border"
-        android:textColor="@color/baseText"
-        app:layout_constraintBottom_toTopOf="@+id/CounterOptionsButton"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectBackgroundOptionButton" />
-
-    <Button
         android:id="@+id/CounterOptionsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/baseButtons"
+        android:background="@drawable/rounded_corners_rectangle"
         android:padding="8dp"
         android:text="Counter Options"
-        android:textColor="@color/baseText"
-        app:layout_constraintBottom_toTopOf="@+id/counterListOptionsButton"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectFancyBorderButton" />
-
-    <Button
-        android:id="@+id/counterListOptionsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/baseButtons"
-        android:padding="8dp"
-        android:text="Counter List Options"
         android:textColor="@color/baseText"
         app:layout_constraintBottom_toTopOf="@+id/toMainMenuFromSettingsMenuButton"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/CounterOptionsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/selectBackgroundOptionButton" />
 
     <Button
         android:id="@+id/toMainMenuFromSettingsMenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/baseButtons"
+        android:background="@drawable/rounded_corners_rectangle"
         android:padding="8dp"
         android:text="Main Menu"
         android:textColor="@color/baseText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/counterListOptionsButton" />
+        app:layout_constraintTop_toBottomOf="@id/CounterOptionsButton" />
 
     <ImageView
         android:id="@+id/settingsImageView"

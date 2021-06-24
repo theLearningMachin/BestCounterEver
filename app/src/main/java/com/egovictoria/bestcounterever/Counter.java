@@ -4,15 +4,32 @@ public class Counter {
 
     private boolean isSelected;
     private int count;
+    private String name;
 
     public Counter() {
         count = 0;
         isSelected = false;
+        name = "counter";
     }
 
-    public Counter(int x) {
-        count = x;
+    public Counter(int count) {
+        this.count = count;
         isSelected = false;
+        name = "counter";
+    }
+
+    public Counter(int count, String name) {
+        this.count = count;
+        isSelected = false;
+        this.name = name;
+    }
+
+    void setName (String name) {
+        this.name = name;
+    }
+
+    String getName () {
+        return name;
     }
 
     void setSelected(boolean s) {

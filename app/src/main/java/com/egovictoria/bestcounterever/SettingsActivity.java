@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +18,7 @@ import static com.egovictoria.bestcounterever.R.*;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button selectBackgroundOption, selectFancyBorder, counterOptions, counterListOptions, mainMenu;
+    private Button selectBackgroundOption, counterOptions, mainMenu;
     private ImageView background;
     private final String TAG = "BestCounter/SettingMenu";
 
@@ -28,16 +30,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         // initialize views
         selectBackgroundOption = findViewById(id.selectBackgroundOptionButton);
-        selectFancyBorder = findViewById(id.selectFancyBorderButton);
         counterOptions = findViewById(id.CounterOptionsButton);
-        counterListOptions = findViewById(id.counterListOptionsButton);
         mainMenu = findViewById(id.toMainMenuFromSettingsMenuButton);
         background = findViewById(id.settingsImageView);
 
         selectBackgroundOption.setOnClickListener(this);
-        selectFancyBorder.setOnClickListener(this);
         counterOptions.setOnClickListener(this);
-        counterListOptions.setOnClickListener(this);
         mainMenu.setOnClickListener(this);
 
         Log.i(TAG, "initialized");
@@ -46,16 +44,15 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         SettingsActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                selectBackgroundOption.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-                selectBackgroundOption.setTextColor(Color.parseColor(AppConstants.TextColor));
-                counterOptions.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-                counterOptions.setTextColor(Color.parseColor(AppConstants.TextColor));
-                counterListOptions.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-                counterListOptions.setTextColor(Color.parseColor(AppConstants.TextColor));
-                mainMenu.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                Drawable bg = getDrawable(R.drawable.rounded_corners_rectangle);
+                bg.setColorFilter(Color.parseColor(AppConstants.ButtonColor), PorterDuff.Mode.SRC_OVER);
+
+                mainMenu.setBackground(bg);
                 mainMenu.setTextColor(Color.parseColor(AppConstants.TextColor));
-                selectFancyBorder.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-                selectFancyBorder.setTextColor(Color.parseColor(AppConstants.TextColor));
+                selectBackgroundOption.setBackground(bg);
+                selectBackgroundOption.setTextColor(Color.parseColor(AppConstants.TextColor));
+                counterOptions.setBackground(bg);
+                counterOptions.setTextColor(Color.parseColor(AppConstants.TextColor));
 
                 if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
                     background.setBackgroundColor(Color.parseColor((String) AppConstants.Background));
@@ -73,12 +70,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         if (id == R.id.selectBackgroundOptionButton) {
             startActivity(new Intent(this, Backgrounds.class));
             finish();
-        } else if (id == R.id.selectFancyBorderButton) {
-            Toast.makeText(this, "This is being added soon!", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.CounterOptionsButton) {
             Toast.makeText(this, "Add counter options activity", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.counterListOptionsButton) {
-            Toast.makeText(this, "Add counter list options activity", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.toMainMenuFromSettingsMenuButton) {
             startActivity(new Intent(this, MainActivity.class));
             finish();

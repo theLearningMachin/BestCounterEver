@@ -2,6 +2,10 @@ package com.egovictoria.bestcounterever;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +69,9 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
         //Log.i(TAG, "attempting to set objects");
 
         String countText = "" + counter.getCount();
+        String nameText = counter.getName();
         holder.count.setText(countText);
+        holder.name.setText(nameText);
         // Log.i(TAG, "counter text set");
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,15 +103,33 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
                 counters.set(position, newCounter);
             }
         });
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         holder.checkBox.setChecked(false);
 
-        // aesthetics
-        holder.count.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-        holder.count.setTextColor(Color.parseColor(AppConstants.TextColor));
-        holder.plus.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-        holder.plus.setTextColor(Color.parseColor(AppConstants.TextColor));
-        holder.minus.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-        holder.minus.setTextColor(Color.parseColor(AppConstants.TextColor));
+        try {
+            // aesthetics
+            Drawable bg = context.getDrawable(R.drawable.rounded_corners_rectangle);
+            bg.setColorFilter(Color.parseColor(AppConstants.ButtonColor), PorterDuff.Mode.SRC_OVER);
+
+            Log.i(TAG, "Drawable successfully loaded");
+
+            holder.count.setBackground(bg);
+            holder.count.setTextColor(Color.parseColor(AppConstants.TextColor));
+            holder.plus.setBackground(bg);
+            holder.plus.setTextColor(Color.parseColor(AppConstants.TextColor));
+            holder.minus.setBackground(bg);
+            holder.minus.setTextColor(Color.parseColor(AppConstants.TextColor));
+            holder.name.setBackground(bg);
+            holder.name.setTextColor(Color.parseColor(AppConstants.TextColor));
+
+        } catch (Exception e) {
+            Log.i(TAG, "failed during aesthetic creation");
+        }
 
 
         return view;
@@ -121,10 +145,14 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
         notifyDataSetChanged();
     }
 
+    void counterOptionsPopup() {
+        // go to https://guides.codepath.com/android/using-dialogfragment
+    }
 
     private static class ViewHolder {
         CheckBox checkBox;
         TextView count;
+        TextView name;
         Button plus;
         Button minus;
     }
