@@ -3,6 +3,10 @@ package com.egovictoria.bestcounterever;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.view.Window;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class AppConstants {
 
@@ -16,23 +20,29 @@ public class AppConstants {
     public static Object Background;
     public static String TextColor;
     public static SharedPreferences prefs;
+    public static ArrayList<Counter> counters;
+    public static Context context;
 
     public static void initialize(SharedPreferences p) {
+        // sharedpreferences object
         prefs = p;
+
+        // the amount that pressing a button changes the counter
         if (prefs.getInt(SDKey, 0) == 0) {
             standardDeviation = 1;
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt(SDKey, standardDeviation);
             editor.apply();
-
         } else {
             standardDeviation = prefs.getInt(SDKey, 0);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(SDKey, standardDeviation);
-            editor.apply();
         }
 
 
+        // the counters array for the application
+        counters = new ArrayList<Counter>();
+
+
+        // theme stuff
         if (prefs.getString(themeKey, null) == null) {
             setBrightTheme();
             SharedPreferences.Editor editor = prefs.edit();
@@ -96,5 +106,13 @@ public class AppConstants {
         ButtonColor = "#C899E8";
         Background = R.drawable.summer_scene;
         TextColor = "#000000";
+    }
+
+    public void setCounters(ArrayList<Counter> counters) {
+        AppConstants.counters = counters;
+    }
+
+    public ArrayList<Counter> getCounters() {
+        return counters;
     }
 }

@@ -3,7 +3,6 @@ package com.egovictoria.bestcounterever;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,18 +13,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import static com.egovictoria.bestcounterever.R.*;
 
 public class CounterListActivity extends AppCompatActivity {
 
-    private ArrayList<Counter> counters;
     private Button addCounter, deleteCounter, mainMenu, saveSet;
     private ImageView background;
     private ListView counterListView;
     private CounterListAdapter adapter;
     private final String TAG = "BestCounter/CounterList";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +39,20 @@ public class CounterListActivity extends AppCompatActivity {
         saveSet = findViewById(id.saveCounterSetButton);
         background = findViewById(id.counterListImageView);
 
-        // get the list of counters
-        int[] counterValues = getIntent().getIntArrayExtra("counterValues");
-        String[] counterNames = getIntent().getStringArrayExtra("counterNames");
-        counters = new ArrayList<Counter>();
-        if (counterValues != null) {
-            for(int i = 0; i < counterValues.length; i++) {
-                counters.add(new Counter(counterValues[i], counterNames[i]));
-            }
+        // set adapter and on click listeners
+        adapter = new CounterListAdapter(this, layout.counter_list_adapter, AppConstants.counters);
+
+        Log.i(TAG, "adapter created in counter list activity");
+
+        try {
+            counterListView.setAdapter(adapter);
+        } catch (Exception e) {
+            String name = e.getClass().getCanonicalName();
+            Log.i(TAG, "Exception type " + name + " while attempting to set adapter in counter list activity");
         }
 
-        // set adapter and on click listeners
-        adapter = new CounterListAdapter(this, layout.counter_list_adapter, counters);
-        counterListView.setAdapter(adapter);
+        Log.i(TAG, "adapter set");
+
         addCounter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

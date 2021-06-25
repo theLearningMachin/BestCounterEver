@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,19 +30,19 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
     private final Context context;
     private final int resource;
     private final String TAG = "BestCounter/Adapter";
+    private boolean running;
 
     public CounterListAdapter(@NonNull Context aContext, int aResource, @NonNull ArrayList<Counter> objects) {
         super(aContext, aResource, objects);
-        //Log.i(TAG, "object created");
         counters = objects;
         context = aContext;
         resource = aResource;
-        //Log.i(TAG, "variables set");
+        Log.i(TAG, "adapter created successfully");
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //Log.i(TAG, "Attempting to retrieve view " + position);
+        Log.i(TAG, "Attempting to retrieve view " + position);
         View view;
         Counter counter = counters.get(position);
         ViewHolder holder;
@@ -55,6 +56,7 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
             holder.checkBox = view.findViewById(R.id.adapterCheckBox);
             holder.minus = view.findViewById(R.id.adapterButtonMinus);
             holder.plus =  view.findViewById(R.id.adapterButtonPlus);
+            holder.name = view.findViewById(R.id.adapterTextViewName);
 
             view.setTag(holder);
 
@@ -72,7 +74,7 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
         String nameText = counter.getName();
         holder.count.setText(countText);
         holder.name.setText(nameText);
-        // Log.i(TAG, "counter text set");
+        Log.i(TAG, "counter text set");
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +99,7 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
             @Override
             public void onClick(View v) {
                 boolean selected = holder.checkBox.isChecked();
-                Log.i(TAG, "checkBox clicked at position " + position + " set to " + selected);
+                //Log.i(TAG, "checkBox clicked at position " + position + " set to " + selected);
                 Counter newCounter = counters.get(position);
                 newCounter.setSelected(selected);
                 counters.set(position, newCounter);
@@ -106,10 +108,32 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                try {
+                    counterOptionsPopup(position);
+                } catch (Exception e) {
+                    String name = e.getClass().getCanonicalName();
+                    Log.i(TAG, "exception " + name + " in counter list adapter when starting " +
+                            "counter options popup");
+                    Log.i(TAG, e.toString());
+                }
+            }
+        });
+        holder.count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    counterOptionsPopup(position);
+                } catch (Exception e) {
+                    String name = e.getClass().getCanonicalName();
+                    Log.i(TAG, "exception " + name + " in counter list adapter when starting " +
+                            "counter options popup");
+                    Log.i(TAG, e.toString());
+                }
             }
         });
         holder.checkBox.setChecked(false);
+
+        Log.i(TAG, "on click listeners set");
 
         try {
             // aesthetics
@@ -124,11 +148,11 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
             holder.plus.setTextColor(Color.parseColor(AppConstants.TextColor));
             holder.minus.setBackground(bg);
             holder.minus.setTextColor(Color.parseColor(AppConstants.TextColor));
-            holder.name.setBackground(bg);
+            holder.name.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
             holder.name.setTextColor(Color.parseColor(AppConstants.TextColor));
 
         } catch (Exception e) {
-            Log.i(TAG, "failed during aesthetic creation");
+            Log.i(TAG, "failed during aesthetic creation " + e.getClass().getCanonicalName());
         }
 
 
@@ -145,8 +169,27 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
         notifyDataSetChanged();
     }
 
-    void counterOptionsPopup() {
-        // go to https://guides.codepath.com/android/using-dialogfragment
+    void counterOptionsPopup(int position) {
+        try{
+            EditCounterDialog dialog = new EditCounterDialog(position);
+
+            Log.i(TAG, "dialog initialized");
+
+            dialog.show(dialog.getParentFragmentManager(), "Edit Counter");
+
+            Log.i(TAG, "dialog shown");
+
+            notifyDataSetChanged();
+
+            Log.i(TAG, "data set changed successfully");
+        } catch (Exception e) {
+            String name = e.getClass().getCanonicalName();
+            Log.i(TAG, "error " + name + " during dialog popup");
+        }
+    }
+
+    void setRunning(boolean isRunning) {
+        this.running = isRunning;
     }
 
     private static class ViewHolder {
