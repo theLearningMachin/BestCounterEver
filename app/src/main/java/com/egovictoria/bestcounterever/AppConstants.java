@@ -2,10 +2,7 @@ package com.egovictoria.bestcounterever;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.view.Window;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AppConstants {
@@ -22,10 +19,19 @@ public class AppConstants {
     public static SharedPreferences prefs;
     public static ArrayList<Counter> counters;
     public static Context context;
+    public static SaveReaderWriter srw;
+    public static String CurrentSaveName;
+    public static String appPrefsName = "BestCounterEverPreferences";
 
     public static void initialize(SharedPreferences p) {
-        // sharedpreferences object
+
+        // shared preferences object
         prefs = p;
+
+        // saving and reading save files object
+        srw = new SaveReaderWriter();
+
+        getCountersFromPrefs();
 
         // the amount that pressing a button changes the counter
         if (prefs.getInt(SDKey, 0) == 0) {
@@ -36,11 +42,6 @@ public class AppConstants {
         } else {
             standardDeviation = prefs.getInt(SDKey, 0);
         }
-
-
-        // the counters array for the application
-        counters = new ArrayList<Counter>();
-
 
         // theme stuff
         if (prefs.getString(themeKey, null) == null) {
@@ -70,6 +71,14 @@ public class AppConstants {
                     setFallTheme();
                     break;
             }
+        }
+    }
+
+    public static void getCountersFromPrefs() {
+        if (CurrentSaveName == null) {
+            counters = new ArrayList<>();
+        } else {
+            counters = srw.getSet(CurrentSaveName);
         }
     }
 
@@ -106,13 +115,5 @@ public class AppConstants {
         ButtonColor = "#C899E8";
         Background = R.drawable.summer_scene;
         TextColor = "#000000";
-    }
-
-    public void setCounters(ArrayList<Counter> counters) {
-        AppConstants.counters = counters;
-    }
-
-    public ArrayList<Counter> getCounters() {
-        return counters;
     }
 }

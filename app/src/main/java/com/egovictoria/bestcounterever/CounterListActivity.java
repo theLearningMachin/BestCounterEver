@@ -1,7 +1,9 @@
 package com.egovictoria.bestcounterever;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,7 +24,8 @@ public class CounterListActivity extends AppCompatActivity {
     private ImageView background;
     private ListView counterListView;
     private CounterListAdapter adapter;
-    private final String TAG = "BestCounter/CounterList";
+    private static final String TAG = "BestCounter/CounterList";
+    private static FragmentManager fm;
 
 
 
@@ -31,6 +35,10 @@ public class CounterListActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(layout.activity_counter_list);
 
+        // get the fragment manager
+        fm = getSupportFragmentManager();
+        Log.i(TAG, "fragment manager got");
+
         // initialize views
         addCounter = findViewById(id.addCounterButton);
         deleteCounter = findViewById(id.deleteCounterButton);
@@ -39,16 +47,22 @@ public class CounterListActivity extends AppCompatActivity {
         saveSet = findViewById(id.saveCounterSetButton);
         background = findViewById(id.counterListImageView);
 
-        // set adapter and on click listeners
-        adapter = new CounterListAdapter(this, layout.counter_list_adapter, AppConstants.counters);
+        Log.i(TAG, "views initialized");
 
-        Log.i(TAG, "adapter created in counter list activity");
+        try {
+            // set adapter and on click listeners
+            adapter = new CounterListAdapter(this, layout.counter_list_adapter, AppConstants.counters);
+            Log.i(TAG, "adapter created");
+        } catch (Exception e) {
+            String name = e.getClass().getCanonicalName();
+            Log.i(TAG, "error " + name + " at creating adapter");
+        }
 
         try {
             counterListView.setAdapter(adapter);
         } catch (Exception e) {
             String name = e.getClass().getCanonicalName();
-            Log.i(TAG, "Exception type " + name + " while attempting to set adapter in counter list activity");
+            Log.i(TAG, "Exception type " + name + " while attempting to set adapter");
         }
 
         Log.i(TAG, "adapter set");
@@ -57,6 +71,7 @@ public class CounterListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 adapter.add(new Counter());
+                Log.i(TAG, "new counter successfully added");
             }
         });
         deleteCounter.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +90,41 @@ public class CounterListActivity extends AppCompatActivity {
         saveSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "fix it Tori", Toast.LENGTH_SHORT).show();
+                // initialize shit
+                AlertDialog.Builder builder = new AlertDialog.Builder(CounterListActivity.this);
+                AlertDialog dialog = null;
+                View view = getLayoutInflater().inflate(layout.save_counter_dialog, null);
+                EditText saveNameEntry = view.findViewById(id.saveCounterDialogEntry);
+                Button confirmEntry = view.findViewById(id.saveCounterDialogConfirmButton);
+
+                // set the on click listener
+                confirmEntry.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = saveNameEntry.getText().toString();
+                        if (uniqueSaveName(name)) {
+
+                            try {
+                                AppConstants.srw.saveSet(AppConstants.counters, name);
+                                Toast.makeText(getApplicationContext(),
+                                        "Successfully saved, please tap outside the dialog to dismiss",
+                                        Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                String errorCode = e.getClass().getCanonicalName();
+                                Log.i(TAG, "error when saving counter set " + errorCode);
+                            }
+
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Please enter a unique save name",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                builder.setView(view);
+                dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -101,5 +150,26 @@ public class CounterListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    static boolean uniqueSaveName(String saveName) {
+        for (int i = 0; i < AppConstants.srw.getSaveNames().length; i++) {
+            if (AppConstants.srw.getSaveNames()[i].equals(saveName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static void counterOptionsPopup(int position) {
+        try{
+            EditCounterDialog dialog = EditCounterDialog.newInstance(position);
+            Log.i(TAG, "dialog initialized");
+            dialog.show(fm, "Edit Counter");
+        } catch (Exception e) {
+            String name = e.getClass().getCanonicalName();
+            Log.i(TAG, "error " + name + " during dialog popup");
+            Log.i(TAG, e.toString());
+        }
     }
 }

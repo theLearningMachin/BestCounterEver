@@ -9,6 +9,7 @@
         android:roundIcon="@drawable/bce_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
+        <activity android:name=".LoadCounterSetActivity"></activity>
         <activity android:name=".Backgrounds" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".CounterListActivity" />

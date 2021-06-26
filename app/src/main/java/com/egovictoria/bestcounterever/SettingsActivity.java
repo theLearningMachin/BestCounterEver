@@ -44,14 +44,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         SettingsActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Drawable bg = getDrawable(R.drawable.rounded_corners_rectangle);
-                bg.setColorFilter(Color.parseColor(AppConstants.ButtonColor), PorterDuff.Mode.SRC_OVER);
 
-                mainMenu.setBackground(bg);
+                mainMenu.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
                 mainMenu.setTextColor(Color.parseColor(AppConstants.TextColor));
-                selectBackgroundOption.setBackground(bg);
+                selectBackgroundOption.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
                 selectBackgroundOption.setTextColor(Color.parseColor(AppConstants.TextColor));
-                counterOptions.setBackground(bg);
+                counterOptions.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
                 counterOptions.setTextColor(Color.parseColor(AppConstants.TextColor));
 
                 if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {

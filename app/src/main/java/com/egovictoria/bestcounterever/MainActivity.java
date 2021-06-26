@@ -57,49 +57,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.i(TAG, "on click listeners set");
 
+
         // initialize appConstants, also generate the SharedPreferences object
-        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(AppConstants.appPrefsName, Context.MODE_PRIVATE);
         AppConstants.initialize(prefs);
 
-        Log.i(TAG, "app constants initialized");
-
-        String theme = prefs.getString(AppConstants.themeKey, null);
-        int SD = prefs.getInt(AppConstants.SDKey, 0);
-
-        Log.i(TAG, "shared preferences: \nTheme: " + theme + "\nStandardDeviation: " + SD);
+        Log.i(TAG, "AppConstants initialized");
 
         // set aesthetic settings
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void run() {
-                if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
-                    background.setBackgroundColor(Color.parseColor((String) AppConstants.Background));
-                } else {
-                    background.setImageResource((Integer) AppConstants.Background);
+        try {
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @SuppressLint("ResourceType")
+                @Override
+                public void run() {
+                    if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
+                        background.setBackgroundColor(Color.parseColor((String) AppConstants.Background));
+                    } else {
+                        background.setImageResource((Integer) AppConstants.Background);
+                    }
+
+                    newCounter.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                    newCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
+                    loadCounter.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                    loadCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
+                    settings.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                    settings.setTextColor(Color.parseColor(AppConstants.TextColor));
+
+                    Log.i(TAG, "aesthetics set");
                 }
-
-                Drawable bg = getDrawable(R.drawable.rounded_corners_rectangle);
-                bg.setColorFilter(Color.parseColor(AppConstants.ButtonColor), PorterDuff.Mode.SRC_OVER);
-
-                newCounter.setBackground(bg);
-                newCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
-                loadCounter.setBackground(bg);
-                loadCounter.setTextColor(Color.parseColor(AppConstants.TextColor));
-                settings.setBackground(bg);
-                settings.setTextColor(Color.parseColor(AppConstants.TextColor));
-            }
-        });
-
-        Log.i(TAG, "aesthetics set");
+            });
+        } catch (Exception e) {
+            String name = e.getClass().getCanonicalName();
+            Log.i(TAG, "app failed during aesthetics " + name);
+        }
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.loadCounterButton) {
-            Toast.makeText(this, "Make class for loading counters, also make a way to" +
-                    " save counters", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoadCounterSetActivity.class));
+            finish();
         } else if (id == R.id.newCounterButton) {
             startActivity(new Intent(this, CounterListActivity.class));
             finish();

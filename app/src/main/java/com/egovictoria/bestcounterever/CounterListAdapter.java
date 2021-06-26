@@ -20,16 +20,19 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CounterListAdapter extends ArrayAdapter<Counter> {
 
-    private final ArrayList<Counter> counters;
+    private ArrayList<Counter> counters;
     private final Context context;
     private final int resource;
-    private final String TAG = "BestCounter/Adapter";
+    private static final String TAG = "BestCounter/Adapter";
     private boolean running;
 
     public CounterListAdapter(@NonNull Context aContext, int aResource, @NonNull ArrayList<Counter> objects) {
@@ -109,7 +112,7 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
             @Override
             public void onClick(View v) {
                 try {
-                    counterOptionsPopup(position);
+                    CounterListActivity.counterOptionsPopup(position);
                 } catch (Exception e) {
                     String name = e.getClass().getCanonicalName();
                     Log.i(TAG, "exception " + name + " in counter list adapter when starting " +
@@ -122,7 +125,7 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
             @Override
             public void onClick(View v) {
                 try {
-                    counterOptionsPopup(position);
+                    CounterListActivity.counterOptionsPopup(position);
                 } catch (Exception e) {
                     String name = e.getClass().getCanonicalName();
                     Log.i(TAG, "exception " + name + " in counter list adapter when starting " +
@@ -136,17 +139,14 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
         Log.i(TAG, "on click listeners set");
 
         try {
-            // aesthetics
-            Drawable bg = context.getDrawable(R.drawable.rounded_corners_rectangle);
-            bg.setColorFilter(Color.parseColor(AppConstants.ButtonColor), PorterDuff.Mode.SRC_OVER);
 
             Log.i(TAG, "Drawable successfully loaded");
 
-            holder.count.setBackground(bg);
+            holder.count.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
             holder.count.setTextColor(Color.parseColor(AppConstants.TextColor));
-            holder.plus.setBackground(bg);
+            holder.plus.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
             holder.plus.setTextColor(Color.parseColor(AppConstants.TextColor));
-            holder.minus.setBackground(bg);
+            holder.minus.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
             holder.minus.setTextColor(Color.parseColor(AppConstants.TextColor));
             holder.name.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
             holder.name.setTextColor(Color.parseColor(AppConstants.TextColor));
@@ -167,25 +167,6 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
             }
         }
         notifyDataSetChanged();
-    }
-
-    void counterOptionsPopup(int position) {
-        try{
-            EditCounterDialog dialog = new EditCounterDialog(position);
-
-            Log.i(TAG, "dialog initialized");
-
-            dialog.show(dialog.getParentFragmentManager(), "Edit Counter");
-
-            Log.i(TAG, "dialog shown");
-
-            notifyDataSetChanged();
-
-            Log.i(TAG, "data set changed successfully");
-        } catch (Exception e) {
-            String name = e.getClass().getCanonicalName();
-            Log.i(TAG, "error " + name + " during dialog popup");
-        }
     }
 
     void setRunning(boolean isRunning) {

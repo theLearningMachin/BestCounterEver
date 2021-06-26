@@ -1,54 +1,151 @@
 package com.egovictoria.bestcounterever;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
 
 public class SaveReaderWriter {
 
     /*
-    saves the list of counters in a text file in the following format
-
-    ,          : this shows a separation between objects
-    []         : brackets surround the list of objects
-    "name"     : the first object in the list will be a string which is the name of the list
-    {12,""} : this denotes the object
-    ;          : end of list character
+    saves are stored in sharedpreferences
+    there will be a string list called saveNames with the names of the saves and the counter arrays
+    will be saved under those names as two seperate preferences called
+    "saveName" + "values"
+    "saveName" + "names"
+    which will be combined to return the list
      */
 
-    private File savesFile;
+    // details for sharedPreferences
+    private static final String saveNamePrefs = "saveNames";
+    private static final String TAG = "BestCounter/srw";
+    private String[] saveNames;
 
     public SaveReaderWriter() {
-        savesFile = new File("saves.txt");
+        try {
+            saveNames = listFromStringList(AppConstants.prefs.getString(saveNamePrefs, null));
+            String logText = "";
+            for (int i = 0; i < saveNames.length; i++) {
+                logText += "\n"+saveNames[i];
+            }
+            Log.i(TAG, "Save names loaded from srw: " + logText);
+
+        } catch (NullPointerException e) {
+            Log.i(TAG, "null pointer exception in srw");
+            SharedPreferences.Editor editor = AppConstants.prefs.edit();
+            editor.putString(saveNamePrefs, "");
+            editor.apply();
+        }
     }
 
-    // saves the set when the save counter button in counter list activity is clicked
-    void saveSet(Counter[] counters, String name) throws IOException {
-        // add the name to the beginning of the list
-        String line = "[" + name + ",";
+    String [] getSaveNames() {
+        return saveNames;
+    }
 
-        // generate the FileWriter object, making sure to append instead of overwrite
-        FileWriter writer = new FileWriter(savesFile, true);
 
-        // iterate through the counters list in order to create the objects to save
-        for(int i = 0; i < counters.length; i++) {
-            String counterText = "{" + counters[i].getCount() + "," + counters[i].getName() + "}";
-            if (i < counters.length - 1) {
-                counterText += ",";
-            }
+
+
+
+    void saveSet(ArrayList<Counter> theSet, String saveName) {
+        // generate the strings for the sharedPreferences editor
+        String saveNameForPrefs = saveName + "names";
+        String saveValuesForPrefs = saveName + "values";
+
+        Log.i(TAG, "save name variables set");
+
+        // generate the strings for saving
+        String values = "";
+        String names = "";
+        for (int i = 0; i < theSet.size(); i++) {
+            values += theSet.get(i).getCount() + ",";
+            names += theSet.get(i).getName() + ",";
         }
 
-        // add the end of list character
-        line += "];";
+        Log.i(TAG, "save values set");
 
-        // save the string to file and close the writer
-        writer.write(line);
-        writer.close();
+        // add the save name to saveNames[]
+        if (saveNames.length == 0) {
+            saveNames = new String[1];
+            saveNames[0] = saveName;
+        } else {
+            String[] newSaves = new String[saveNames.length + 1];
+            for(int i = 0; i < saveNames.length; i++) {
+                newSaves[i] = saveNames[i];
+            }
+            newSaves[saveNames.length - 1] = saveName;
+            saveNames = newSaves;
+        }
+
+        Log.i(TAG, "new save added to saves list");
+
+        // convert save names to single string for shared preferences
+        String saveNamesForPrefs = "";
+        for(int i = 0; i < saveNames.length; i++) {
+            saveNamesForPrefs += saveNames[i] + ",";
+        }
+
+        Log.i(TAG, "new save list created and ready to save");
+
+        // save to sharedPreferences
+        SharedPreferences.Editor editor = AppConstants.prefs.edit();
+        editor.putString(saveNameForPrefs, names);
+        editor.putString(saveValuesForPrefs, values);
+        editor.putString(saveNamePrefs, saveNamesForPrefs);
+        editor.commit();
+
+        Log.i(TAG, "save items saved in shared preferences");
     }
 
-    // fetches a set when it is selected in load counter activity
-    Counter[] getSet(String name) {
-        // iterate through the lists in order to find the one with the correct name
-        return new Counter[0];
+
+
+
+
+    ArrayList<Counter> getSet(String saveName) {
+        // strings for the preferences object
+        String saveNames = saveName + "names";
+        String saveValue = saveName + "values";
+
+        // get the strings from shared preferences and convert to string[]
+        String[] nameList = listFromStringList(AppConstants.prefs.getString(saveNames, null));
+        String[] valuList = listFromStringList(AppConstants.prefs.getString(saveValue, null));
+
+        // convert to Counter[] and return
+        Counter[] counters = new Counter[nameList.length];
+        for(int i = 0; i < counters.length; i++) {
+            Counter temp = new Counter(Integer.parseInt(valuList[i]), nameList[i]);
+            counters[i] = temp;
+        }
+
+        ArrayList<Counter> output = new ArrayList<>();
+        for(Counter counter : counters) {
+            output.add(counter);
+        }
+        return output;
+    }
+
+    // converts a list stored in a long string to a String[]
+    private String[] listFromStringList(String input) {
+        String item = "";
+        ArrayList<String> tempList = new ArrayList<>();
+        for(int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == ',') {
+                tempList.add(item);
+                item = "";
+            } else {
+                item += input.charAt(i);
+            }
+        }
+        String[] output = new String[tempList.size()];
+        for (int i = 0; i < output.length; i++) {
+            output[i] = tempList.get(i);
+        }
+        return output;
     }
 }
