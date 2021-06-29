@@ -32,8 +32,7 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
     private ArrayList<Counter> counters;
     private final Context context;
     private final int resource;
-    private static final String TAG = "BestCounter/Adapter";
-    private boolean running;
+    private static final String TAG = "BestCounter/CLAdapter";
 
     public CounterListAdapter(@NonNull Context aContext, int aResource, @NonNull ArrayList<Counter> objects) {
         super(aContext, aResource, objects);
@@ -45,7 +44,7 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i(TAG, "Attempting to retrieve view " + position);
+        //Log.i(TAG, "Attempting to retrieve view " + position);
         View view;
         Counter counter = counters.get(position);
         ViewHolder holder;
@@ -77,7 +76,7 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
         String nameText = counter.getName();
         holder.count.setText(countText);
         holder.name.setText(nameText);
-        Log.i(TAG, "counter text set");
+        //Log.i(TAG, "counter text set");
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,11 +135,11 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
         });
         holder.checkBox.setChecked(false);
 
-        Log.i(TAG, "on click listeners set");
+        //Log.i(TAG, "on click listeners set");
 
         try {
 
-            Log.i(TAG, "Drawable successfully loaded");
+            //Log.i(TAG, "Drawable successfully loaded");
 
             holder.count.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
             holder.count.setTextColor(Color.parseColor(AppConstants.TextColor));
@@ -167,10 +166,6 @@ public class CounterListAdapter extends ArrayAdapter<Counter> {
             }
         }
         notifyDataSetChanged();
-    }
-
-    void setRunning(boolean isRunning) {
-        this.running = isRunning;
     }
 
     private static class ViewHolder {

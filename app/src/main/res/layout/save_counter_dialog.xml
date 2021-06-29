@@ -4,6 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:alpha=".7"
+    android:padding="20dp"
     android:background="@color/dialogBG">
 
     <TextView
@@ -13,6 +14,7 @@
         android:background="@color/baseButtons"
         android:text="Enter Save Name"
         android:textColor="@color/baseText"
+        android:padding="20dp"
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@id/saveCounterDialogEntry"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -25,6 +27,8 @@
         android:layout_height="wrap_content"
         android:hint="Enter Save Name Here"
         android:textColor="@color/baseText"
+        android:background="@color/baseButtons"
+        android:padding="24dp"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/saveCounterDialogConfirmButton"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -36,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
-        android:padding="5dp"
+        android:padding="20dp"
         android:text="Confirm"
         android:textColor="@color/baseText"
         android:textSize="16sp"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     // basic colors so the app can load
-    <color name="baseBackground">#CC7BED</color>
+    <color name="baseBackground">#A863A0</color>
     <color name="baseButtons">#7D0062</color>
-    <color name="baseText">#FC9EE8</color>
+    <color name="baseText">#FFABED</color>
     <color name="black">#000000</color>
     <color name="dialogBG">#D7BFC9</color>
 

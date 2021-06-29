@@ -10,7 +10,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loadCounterButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="35dp"
@@ -24,7 +24,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/newCounterButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="35dp"
@@ -38,7 +38,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/settingsButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:text="Settings"

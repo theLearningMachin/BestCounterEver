@@ -2,6 +2,7 @@ package com.egovictoria.bestcounterever;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,6 +24,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.MobileAds;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -41,6 +44,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        try {
+            MobileAds.initialize(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Log.i(TAG, "app started");
 
         // initialize views
@@ -58,9 +67,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.i(TAG, "on click listeners set");
 
 
-        // initialize appConstants, also generate the SharedPreferences object
-        SharedPreferences prefs = getSharedPreferences(AppConstants.appPrefsName, Context.MODE_PRIVATE);
-        AppConstants.initialize(prefs);
+        // initialize appConstants if it hasn't already been
+        if (!AppConstants.initialized) {
+            AppConstants.initialize(getApplicationContext());
+            AppConstants.initialized = true;
+        }
 
         Log.i(TAG, "AppConstants initialized");
 
@@ -95,15 +106,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.loadCounterButton) {
-            startActivity(new Intent(this, LoadCounterSetActivity.class));
-            finish();
-        } else if (id == R.id.newCounterButton) {
-            startActivity(new Intent(this, CounterListActivity.class));
-            finish();
-        } else if (id == R.id.settingsButton) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            finish();
+        switch (id) {
+            case R.id.loadCounterButton:
+                startActivity(new Intent(this, LoadCounterSetActivity.class));
+                finish();
+                break;
+            case R.id.newCounterButton:
+                AppConstants.counters = new ArrayList<>();
+                startActivity(new Intent(this, CounterListActivity.class));
+                finish();
+                break;
+            case R.id.settingsButton:
+                startActivity(new Intent(this, SettingsActivity.class));
+                finish();
+                break;
         }
     }
 }

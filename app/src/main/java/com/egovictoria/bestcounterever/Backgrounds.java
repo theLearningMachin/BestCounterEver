@@ -3,6 +3,8 @@ package com.egovictoria.bestcounterever;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,6 +14,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdValue;
+import com.google.android.gms.ads.AdView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Backgrounds extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,6 +33,7 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
     private static final String fallPrefs = "fall";
     private static final String springPrefs = "spring";
     private SharedPreferences.Editor editor;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +41,7 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_backgrounds);
 
-        // initialize buttons and set onClickListeners
+        // initialize views
         bright = findViewById(R.id.brightThemeButton);
         dark = findViewById(R.id.darkThemeButton);
         summer = findViewById(R.id.summerThemeButton);
@@ -40,8 +50,9 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
         spring = findViewById(R.id.springThemebutton);
         background = findViewById(R.id.backgroundsImageView);
         backToSettings = findViewById(R.id.toSettingsFromBackgroundButton);
+        adView = findViewById(R.id.backgroundActivityAdView);
 
-        // for each button, set them to their relative layout color schema
+        // aesthetics
         Backgrounds.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -80,50 +91,78 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
 
         // initialize preferences editor object
         editor = AppConstants.prefs.edit();
+
+
+        // initialize ad
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+        // wait for the ad to load
+        ProgressDialog progress = new ProgressDialog(this);
+        progress.setTitle("Fetching Background Images");
+        progress.setMessage("Please wait while loading...");
+        progress.setCancelable(false);
+        progress.show();
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                progress.dismiss();
+            }
+        }, 6000);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.brightThemeButton) {
-            Toast.makeText(this, "Bright Theme Set", Toast.LENGTH_SHORT).show();
-            AppConstants.setBrightTheme();
-            editor.putString(AppConstants.themeKey, brightPrefs);
-            editor.commit();
-        } else if (id == R.id.darkThemeButton) {
-            Toast.makeText(this, "Dark Theme Set", Toast.LENGTH_SHORT).show();
-            AppConstants.setDarkTheme();
-            editor.putString(AppConstants.themeKey, darkPrefs);
-            editor.commit();
-        } else if (id == R.id.summerThemeButton) {
-            Toast.makeText(this, "Summer Theme Set", Toast.LENGTH_SHORT).show();
-            AppConstants.setSummerTheme();
-            editor.putString(AppConstants.themeKey, summerPrefs);
-            editor.commit();
-        } else if (id == R.id.winterThemebutton) {
-            Toast.makeText(this, "Winter Theme Set", Toast.LENGTH_SHORT).show();
-            AppConstants.setWinterTheme();
-            editor.putString(AppConstants.themeKey, winterPrefs);
-            editor.commit();
-        } else if (id == R.id.fallThemeButton) {
-            Toast.makeText(this, "Fall Theme Set", Toast.LENGTH_SHORT).show();
-            AppConstants.setFallTheme();
-            editor.putString(AppConstants.themeKey, fallPrefs);
-            editor.commit();
-        } else if (id == R.id.springThemebutton) {
-            Toast.makeText(this, "Spring Theme Set", Toast.LENGTH_SHORT).show();
-            AppConstants.setSpringTheme();
-            editor.putString(AppConstants.themeKey, springPrefs);
-            editor.commit();
-        } else if (id == R.id.toSettingsFromBackgroundButton) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            finish();
+        switch (id) {
+            case R.id.brightThemeButton:
+                Toast.makeText(this, "Bright Theme Set", Toast.LENGTH_SHORT).show();
+                AppConstants.setBrightTheme();
+                editor.putString(AppConstants.themeKey, brightPrefs);
+                editor.apply();
+                break;
+            case R.id.darkThemeButton:
+                Toast.makeText(this, "Dark Theme Set", Toast.LENGTH_SHORT).show();
+                AppConstants.setDarkTheme();
+                editor.putString(AppConstants.themeKey, darkPrefs);
+                editor.apply();
+                break;
+            case R.id.summerThemeButton:
+                Toast.makeText(this, "Summer Theme Set", Toast.LENGTH_SHORT).show();
+                AppConstants.setSummerTheme();
+                editor.putString(AppConstants.themeKey, summerPrefs);
+                editor.apply();
+                break;
+            case R.id.winterThemebutton:
+                Toast.makeText(this, "Winter Theme Set", Toast.LENGTH_SHORT).show();
+                AppConstants.setWinterTheme();
+                editor.putString(AppConstants.themeKey, winterPrefs);
+                editor.apply();
+                break;
+            case R.id.fallThemeButton:
+                Toast.makeText(this, "Fall Theme Set", Toast.LENGTH_SHORT).show();
+                AppConstants.setFallTheme();
+                editor.putString(AppConstants.themeKey, fallPrefs);
+                editor.apply();
+                break;
+            case R.id.springThemebutton:
+                Toast.makeText(this, "Spring Theme Set", Toast.LENGTH_SHORT).show();
+                AppConstants.setSpringTheme();
+                editor.putString(AppConstants.themeKey, springPrefs);
+                editor.apply();
+                break;
+            case R.id.toSettingsFromBackgroundButton:
+                startActivity(new Intent(this, SettingsActivity.class));
+                finish();
+                break;
         }
 
         Backgrounds.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
+                if (AppConstants.getTheme().equals("bright") ||
+                        AppConstants.getTheme().equals("dark")) {
                     background.setImageResource(0);
                     background.setBackgroundColor(Color.parseColor((String) AppConstants.Background));
                 } else {
@@ -147,7 +186,7 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
             case "spring":
                 return "#CEBC60";
             case "bright":
-                return "#83F7E2";
+                return "#883E68";
             case "dark":
                 return "#23274D";
             case "fall":
@@ -161,6 +200,8 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
         switch (theme) {
             case "dark":
                 return "#C2C7F8";
+            case "bright":
+                return "#D799E0";
             default:
                 return "#000000";
         }

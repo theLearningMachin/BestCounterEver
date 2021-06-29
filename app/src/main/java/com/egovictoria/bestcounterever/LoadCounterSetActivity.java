@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,12 +17,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class LoadCounterSetActivity extends AppCompatActivity {
 
     private Button confirm, menu;
     private ListView savesList;
     private ImageView background;
     private TextView selection;
+    private static final String TAG = "BestCounter/load";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,8 @@ public class LoadCounterSetActivity extends AppCompatActivity {
         background = findViewById(R.id.saveCounterSetBackground);
         selection = findViewById(R.id.saveSelectionName);
         menu = findViewById(R.id.toMainMenuFromLoadCounterActivity);
+
+        Log.i(TAG, "views created");
 
         // aesthetics
         LoadCounterSetActivity.this.runOnUiThread(new Runnable() {
@@ -50,21 +59,36 @@ public class LoadCounterSetActivity extends AppCompatActivity {
                 selection.setTextColor(Color.parseColor(AppConstants.TextColor));
                 menu.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
                 menu.setTextColor(Color.parseColor(AppConstants.TextColor));
+
+                Log.i(TAG, "aesthetics set");
             }
         });
+
+        Log.i(TAG, "creating adapter with saves list: " + AppConstants.saveNames.toString());
+
 
         // set on click listeners and adapter
         SavesListAdapter adapter = new SavesListAdapter(
                 getApplicationContext(),
                 R.layout.saves_list_adapter,
-                AppConstants.srw.getSaveNames()
+                AppConstants.saveNames
         );
+        Log.i(TAG, "adapter created");
+
         savesList.setAdapter(adapter);
+        Log.i(TAG, "adapter set to list: " + AppConstants.saveNames.toString());
+
+
+
         savesList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AppConstants.counters = AppConstants.srw.getSet(AppConstants.srw.getSaveNames()[position]);
-                selection.setText(AppConstants.srw.getSaveNames()[position]);
+                ArrayList<Object> items = SaveReaderWriter.getSet(AppConstants.saveNames.get(position));
+                AppConstants.counters = new ArrayList<>();
+                for (int i = 0; i < items.size(); i++) {
+                    AppConstants.counters.add((Counter) items.get(i));
+                }
+                selection.setText(AppConstants.saveNames.get(position));
             }
         });
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -81,5 +105,7 @@ public class LoadCounterSetActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Log.i(TAG, "on click listeners set");
     }
 }

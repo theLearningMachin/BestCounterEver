@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CounterOptions">
+
+    <TextView
+        android:id="@+id/counterOptionsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:padding="24dp"
+        android:text="Edit Counter Behaviors"
+        android:textColor="@color/baseText"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ETValueLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:padding="24dp"
+        android:text="How much should a button click change the value of a counter?"
+        android:textColor="@color/baseText"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/ETValue"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/counterOptionsTitle" />
+
+    <EditText
+        android:id="@+id/ETValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:hint="Enter a value greater than zero"
+        android:padding="24dp"
+        android:textColor="@color/baseText"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/displaySelectorLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ETValueLabel" />
+
+    <TextView
+        android:id="@+id/displaySelectorLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:padding="24dp"
+        android:text="How should the counters be displayed?"
+        android:textColor="@color/baseText"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/displaySelectorGroup"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ETValue" />
+
+    <RadioGroup
+        android:id="@+id/displaySelectorGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/counterOptionsConfirmationButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/displaySelectorLabel">
+
+        <RadioButton
+            android:id="@+id/displaySelectorVerticalList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:padding="24dp"
+            android:text="Less details"
+            android:textColor="@color/baseText"
+            android:textSize="20sp" />
+
+        <RadioButton
+            android:id="@+id/displaySelectorSwipeList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:padding="24dp"
+            android:text="More details"
+            android:textColor="@color/baseText"
+            android:textSize="20sp" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/counterOptionsConfirmationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/baseButtons"
+        android:elevation="1dp"
+        android:padding="24dp"
+        android:text="Confirm"
+        android:textColor="@color/baseText"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/counterOptionsAdView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/counterOptionsBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:background="@color/baseBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.gms.ads.AdView
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintLeft_toLeftOf="parent"
+        ads:layout_constraintRight_toRightOf="parent"
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/counterOptionsAdView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

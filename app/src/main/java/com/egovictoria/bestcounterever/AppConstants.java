@@ -2,43 +2,55 @@ package com.egovictoria.bestcounterever;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AppConstants {
+
+    private static final String TAG = "BestCounter/AppConst";
 
     // sharedPreferences keys
     public static final String themeKey = "theme";
     public static final String SDKey = "standardDeviation";
 
     // public objects
+    public static boolean initialized;
     public static int standardDeviation;
     public static String ButtonColor;
     public static Object Background;
     public static String TextColor;
-    public static SharedPreferences prefs;
     public static ArrayList<Counter> counters;
-    public static Context context;
-    public static SaveReaderWriter srw;
     public static String CurrentSaveName;
-    public static String appPrefsName = "BestCounterEverPreferences";
+    public static SharedPreferences prefs;
+    public static ArrayList<String> saveNames;
 
-    public static void initialize(SharedPreferences p) {
+    public static void initialize(Context c) {
+        prefs = PreferenceManager.getDefaultSharedPreferences(c);
 
-        // shared preferences object
-        prefs = p;
+        // counters array
+        counters = new ArrayList<>();
 
-        // saving and reading save files object
-        srw = new SaveReaderWriter();
-
-        getCountersFromPrefs();
+        // get saveNames
+        saveNames = new ArrayList<>();
+        if (prefs.contains(SaveReaderWriter.saveNamePrefs)) {
+            ArrayList<Object> items = SaveReaderWriter.getSet(SaveReaderWriter.saveNamePrefs);
+            for (int i = 0; i < items.size(); i++) {
+                saveNames.add((String) items.get(i));
+            }
+            Log.i(TAG, "saveNames object loaded from shared preferences " + saveNames.toString());
+        } else {
+            Log.i(TAG, "new saveNames object created");
+        }
 
         // the amount that pressing a button changes the counter
         if (prefs.getInt(SDKey, 0) == 0) {
             standardDeviation = 1;
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt(SDKey, standardDeviation);
-            editor.apply();
+            editor.commit();
         } else {
             standardDeviation = prefs.getInt(SDKey, 0);
         }
@@ -48,7 +60,7 @@ public class AppConstants {
             setBrightTheme();
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(themeKey, "bright");
-            editor.apply();
+            editor.commit();
         } else {
             String theme = prefs.getString(themeKey, null);
             switch (theme) {
@@ -72,14 +84,8 @@ public class AppConstants {
                     break;
             }
         }
-    }
 
-    public static void getCountersFromPrefs() {
-        if (CurrentSaveName == null) {
-            counters = new ArrayList<>();
-        } else {
-            counters = srw.getSet(CurrentSaveName);
-        }
+        Log.i(TAG, "initialized");
     }
 
     public static String getTheme() {
@@ -87,9 +93,9 @@ public class AppConstants {
     }
 
     public static void setBrightTheme(){
-        ButtonColor = "#83F7E2";
+        ButtonColor = "#883E68";
         Background = "#E6C7FE";
-        TextColor = "#000000";
+        TextColor = "#D799E0";
     }
     public static void setDarkTheme(){
         ButtonColor = "#23274D";

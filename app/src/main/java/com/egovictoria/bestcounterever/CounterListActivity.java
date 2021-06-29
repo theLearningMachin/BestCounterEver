@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -90,6 +92,7 @@ public class CounterListActivity extends AppCompatActivity {
         saveSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "");
                 // initialize shit
                 AlertDialog.Builder builder = new AlertDialog.Builder(CounterListActivity.this);
                 AlertDialog dialog = null;
@@ -97,27 +100,24 @@ public class CounterListActivity extends AppCompatActivity {
                 EditText saveNameEntry = view.findViewById(id.saveCounterDialogEntry);
                 Button confirmEntry = view.findViewById(id.saveCounterDialogConfirmButton);
 
+                // if there is already a save name for the counter set, put it in saveNameEntry
+                if (AppConstants.CurrentSaveName != null) {
+                    saveNameEntry.setText(AppConstants.CurrentSaveName);
+                }
+
                 // set the on click listener
                 confirmEntry.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String name = saveNameEntry.getText().toString();
-                        if (uniqueSaveName(name)) {
-
-                            try {
-                                AppConstants.srw.saveSet(AppConstants.counters, name);
-                                Toast.makeText(getApplicationContext(),
-                                        "Successfully saved, please tap outside the dialog to dismiss",
-                                        Toast.LENGTH_SHORT).show();
-                            } catch (Exception e) {
-                                String errorCode = e.getClass().getCanonicalName();
-                                Log.i(TAG, "error when saving counter set " + errorCode);
-                            }
-
-                        } else {
+                        try {
+                            SaveReaderWriter.saveSet(AppConstants.counters, name);
                             Toast.makeText(getApplicationContext(),
-                                    "Please enter a unique save name",
+                                    "Successfully saved, please tap outside the dialog to dismiss",
                                     Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            String errorCode = e.getClass().getCanonicalName();
+                            Log.i(TAG, "error when saving counter set " + errorCode);
                         }
                     }
                 });
@@ -142,7 +142,8 @@ public class CounterListActivity extends AppCompatActivity {
                 saveSet.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
                 saveSet.setTextColor(Color.parseColor(AppConstants.TextColor));
 
-                if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
+                if (AppConstants.getTheme().equals("bright") ||
+                        AppConstants.getTheme().equals("dark")) {
                     background.setImageResource(0);
                     background.setBackgroundColor(Color.parseColor((String) AppConstants.Background));
                 } else {
@@ -150,15 +151,6 @@ public class CounterListActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    static boolean uniqueSaveName(String saveName) {
-        for (int i = 0; i < AppConstants.srw.getSaveNames().length; i++) {
-            if (AppConstants.srw.getSaveNames()[i].equals(saveName)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     static void counterOptionsPopup(int position) {

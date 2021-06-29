@@ -2,7 +2,9 @@ package com.egovictoria.bestcounterever;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -65,14 +67,19 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.selectBackgroundOptionButton) {
-            startActivity(new Intent(this, Backgrounds.class));
-            finish();
-        } else if (id == R.id.CounterOptionsButton) {
-            Toast.makeText(this, "Add counter options activity", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.toMainMenuFromSettingsMenuButton) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+        switch (id) {
+            case R.id.selectBackgroundOptionButton:
+                startActivity(new Intent(this, Backgrounds.class));
+                finish();
+                break;
+            case R.id.CounterOptionsButton:
+                startActivity(new Intent(this, CounterOptions.class));
+                finish();
+                break;
+            case R.id.toMainMenuFromSettingsMenuButton:
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                break;
         }
 
     }

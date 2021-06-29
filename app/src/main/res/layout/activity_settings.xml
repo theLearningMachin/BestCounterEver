@@ -11,7 +11,7 @@
 
     <Button
         android:id="@+id/selectBackgroundOptionButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="35dp"
@@ -25,10 +25,10 @@
 
     <Button
         android:id="@+id/CounterOptionsButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
-        android:text="Counter Options"
+        android:text="Counter\nOptions"
         android:padding="35dp"
         android:textColor="@color/baseText"
         android:textSize="38sp"
@@ -39,7 +39,7 @@
 
     <Button
         android:id="@+id/toMainMenuFromSettingsMenuButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="35dp"

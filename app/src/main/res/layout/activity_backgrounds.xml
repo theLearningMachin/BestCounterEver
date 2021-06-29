@@ -10,7 +10,7 @@
 
     <Button
         android:id="@+id/brightThemeButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="8dp"
@@ -23,7 +23,7 @@
 
     <Button
         android:id="@+id/darkThemeButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="8dp"
@@ -36,7 +36,7 @@
 
     <Button
         android:id="@+id/springThemebutton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="8dp"
@@ -49,7 +49,7 @@
 
     <Button
         android:id="@+id/winterThemebutton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="8dp"
@@ -62,7 +62,7 @@
 
     <Button
         android:id="@+id/fallThemeButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="8dp"
@@ -75,7 +75,7 @@
 
     <Button
         android:id="@+id/summerThemeButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseButtons"
         android:padding="8dp"
@@ -97,7 +97,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/summerThemeButton" />
+        app:layout_constraintBottom_toTopOf="@+id/backgroundActivityAdView"/>
 
     <ImageView
         android:id="@+id/backgroundsImageView"
@@ -108,5 +108,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.gms.ads.AdView
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintLeft_toLeftOf="parent"
+        ads:layout_constraintRight_toRightOf="parent"
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/backgroundActivityAdView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
