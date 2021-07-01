@@ -1,20 +1,19 @@
 package com.egovictoria.bestcounterever;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SavesListAdapter extends ArrayAdapter<String> {
 
@@ -22,6 +21,8 @@ public class SavesListAdapter extends ArrayAdapter<String> {
     private Context context;
     private ArrayList<String> saves;
     private int resource;
+    private int selectedPosition;
+    private RadioButton selectedRB;
 
     public SavesListAdapter(@NonNull Context con, int aResource, @NonNull ArrayList<String> objects) {
         super(con, aResource, objects);
@@ -54,6 +55,7 @@ public class SavesListAdapter extends ArrayAdapter<String> {
 
             holder.saveName = (TextView) view.findViewById(R.id.saveItemNameTextView);
             holder.saveScroll = (TextView) view.findViewById(R.id.saveItemScrollingText);
+            holder.button = (RadioButton) view.findViewById(R.id.pickSelectSetRadioButton);
 
             view.setTag(holder);
         } else {
@@ -61,9 +63,34 @@ public class SavesListAdapter extends ArrayAdapter<String> {
             view = convertView;
         }
 
+        holder.button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if(position != selectedPosition && selectedRB != null){
+                    selectedRB.setChecked(false);
+                }
+
+                selectedPosition = position;
+                selectedRB = (RadioButton)v;
+            }
+        });
+
+
+        if(selectedPosition != position){
+            holder.button.setChecked(false);
+        }else{
+            holder.button.setChecked(true);
+            if(selectedRB != null && holder.button != selectedRB){
+                selectedRB = holder.button;
+            }
+        }
+
         holder.saveName.setText(saveName);
         holder.saveScroll.setText(getCountersText(saveName));
         holder.saveScroll.setSelected(true);
+        holder.button.setChecked(false);
 
         // aesthetics
         holder.saveName.setTextColor(Color.parseColor(AppConstants.TextColor));
@@ -73,13 +100,8 @@ public class SavesListAdapter extends ArrayAdapter<String> {
     }
 
     private String getCountersText(String saveName) {
-        Log.i(TAG, "retrieving counters for save " + saveName);
+        ArrayList<Counter> counters = SaveLoadHelper.fromString(AppConstants.counterSRW.getItem(saveName));
 
-        ArrayList<Object> items = SaveReaderWriter.getSet(saveName);
-        ArrayList<Counter> counters = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            counters.add((Counter) items.get(i));
-        }
         String output = "";
         for(int i = 0; i < counters.size(); i++) {
             output += (counters.get(i).getName() + ":" + counters.get(i).getCount() + "   ");
@@ -89,5 +111,6 @@ public class SavesListAdapter extends ArrayAdapter<String> {
 
     private static class ViewHolder {
         TextView saveName, saveScroll;
+        RadioButton button;
     }
 }

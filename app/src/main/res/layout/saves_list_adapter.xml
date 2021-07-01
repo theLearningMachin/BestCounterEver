@@ -6,6 +6,19 @@
     android:alpha=".8"
     android:layout_height="100dp">
 
+    <RadioButton
+        android:id="@+id/pickSelectSetRadioButton"
+        app:layout_constraintRight_toLeftOf="@+id/saveItemNameTextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/saveItemScrollingText"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Select"
+        android:padding="5dp"
+        android:textColor="@color/baseText"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/saveItemNameTextView"
         android:layout_width="wrap_content"
@@ -14,7 +27,7 @@
         android:textColor="@color/baseText"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/saveItemScrollingText"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/pickSelectSetRadioButton"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

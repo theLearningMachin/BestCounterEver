@@ -26,13 +26,6 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
 
     private Button bright, dark, summer, winter, fall, spring, backToSettings;
     private ImageView background;
-    private static final String brightPrefs = "bright";
-    private static final String darkPrefs = "dark";
-    private static final String summerPrefs = "summer";
-    private static final String winterPrefs = "winter";
-    private static final String fallPrefs = "fall";
-    private static final String springPrefs = "spring";
-    private SharedPreferences.Editor editor;
     private AdView adView;
 
     @Override
@@ -69,8 +62,7 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
                 spring.setTextColor(Color.parseColor(getTextColor("spring")));
                 spring.setBackgroundColor(Color.parseColor(getButtonColor("spring")));
 
-                if (AppConstants.prefs.getString(AppConstants.themeKey, null).equals("bright") ||
-                        AppConstants.prefs.getString(AppConstants.themeKey, null).equals("dark")) {
+                if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
                     background.setBackgroundColor(Color.parseColor((String) AppConstants.Background));
                 } else {
                     background.setImageResource((Integer) AppConstants.Background);
@@ -88,9 +80,6 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
         fall.setOnClickListener(this);
         spring.setOnClickListener(this);
         backToSettings.setOnClickListener(this);
-
-        // initialize preferences editor object
-        editor = AppConstants.prefs.edit();
 
 
         // initialize ad
@@ -119,38 +108,26 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
             case R.id.brightThemeButton:
                 Toast.makeText(this, "Bright Theme Set", Toast.LENGTH_SHORT).show();
                 AppConstants.setBrightTheme();
-                editor.putString(AppConstants.themeKey, brightPrefs);
-                editor.apply();
                 break;
             case R.id.darkThemeButton:
                 Toast.makeText(this, "Dark Theme Set", Toast.LENGTH_SHORT).show();
                 AppConstants.setDarkTheme();
-                editor.putString(AppConstants.themeKey, darkPrefs);
-                editor.apply();
                 break;
             case R.id.summerThemeButton:
                 Toast.makeText(this, "Summer Theme Set", Toast.LENGTH_SHORT).show();
                 AppConstants.setSummerTheme();
-                editor.putString(AppConstants.themeKey, summerPrefs);
-                editor.apply();
                 break;
             case R.id.winterThemebutton:
                 Toast.makeText(this, "Winter Theme Set", Toast.LENGTH_SHORT).show();
                 AppConstants.setWinterTheme();
-                editor.putString(AppConstants.themeKey, winterPrefs);
-                editor.apply();
                 break;
             case R.id.fallThemeButton:
                 Toast.makeText(this, "Fall Theme Set", Toast.LENGTH_SHORT).show();
                 AppConstants.setFallTheme();
-                editor.putString(AppConstants.themeKey, fallPrefs);
-                editor.apply();
                 break;
             case R.id.springThemebutton:
                 Toast.makeText(this, "Spring Theme Set", Toast.LENGTH_SHORT).show();
                 AppConstants.setSpringTheme();
-                editor.putString(AppConstants.themeKey, springPrefs);
-                editor.apply();
                 break;
             case R.id.toSettingsFromBackgroundButton:
                 startActivity(new Intent(this, SettingsActivity.class));
@@ -161,8 +138,7 @@ public class Backgrounds extends AppCompatActivity implements View.OnClickListen
         Backgrounds.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (AppConstants.getTheme().equals("bright") ||
-                        AppConstants.getTheme().equals("dark")) {
+                if (AppConstants.getTheme().equals("bright") || AppConstants.getTheme().equals("dark")) {
                     background.setImageResource(0);
                     background.setBackgroundColor(Color.parseColor((String) AppConstants.Background));
                 } else {

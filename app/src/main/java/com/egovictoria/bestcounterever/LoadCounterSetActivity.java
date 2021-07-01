@@ -1,12 +1,9 @@
 package com.egovictoria.bestcounterever;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,18 +12,15 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import android.widget.Toast;
 
 public class LoadCounterSetActivity extends AppCompatActivity {
 
-    private Button confirm, menu;
+    private Button confirm, menu, delete;
     private ListView savesList;
     private ImageView background;
-    private TextView selection;
     private static final String TAG = "BestCounter/load";
+    private int selectedPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +30,10 @@ public class LoadCounterSetActivity extends AppCompatActivity {
         // initialize views
         confirm = findViewById(R.id.confirmSetSelectionButton);
         savesList = findViewById(R.id.saveListView);
+        savesList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         background = findViewById(R.id.saveCounterSetBackground);
-        selection = findViewById(R.id.saveSelectionName);
         menu = findViewById(R.id.toMainMenuFromLoadCounterActivity);
+        delete = findViewById(R.id.deleteCounterSetButton);
 
         Log.i(TAG, "views created");
 
@@ -55,8 +50,8 @@ public class LoadCounterSetActivity extends AppCompatActivity {
 
                 confirm.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
                 confirm.setTextColor(Color.parseColor(AppConstants.TextColor));
-                selection.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
-                selection.setTextColor(Color.parseColor(AppConstants.TextColor));
+                delete.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
+                delete.setTextColor(Color.parseColor(AppConstants.TextColor));
                 menu.setBackgroundColor(Color.parseColor(AppConstants.ButtonColor));
                 menu.setTextColor(Color.parseColor(AppConstants.TextColor));
 
@@ -79,16 +74,14 @@ public class LoadCounterSetActivity extends AppCompatActivity {
         Log.i(TAG, "adapter set to list: " + AppConstants.saveNames.toString());
 
 
-
         savesList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<Object> items = SaveReaderWriter.getSet(AppConstants.saveNames.get(position));
-                AppConstants.counters = new ArrayList<>();
-                for (int i = 0; i < items.size(); i++) {
-                    AppConstants.counters.add((Counter) items.get(i));
-                }
-                selection.setText(AppConstants.saveNames.get(position));
+                // fetch the string from save file and convert to list of counters with save load helper
+                String tag = AppConstants.saveNames.get(position);
+                AppConstants.counters = SaveLoadHelper.fromString(AppConstants.counterSRW.getItem(tag));
+                selectedPosition = position;
+                Toast.makeText(getApplicationContext(), tag + " retrieved", Toast.LENGTH_SHORT).show();
             }
         });
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +98,15 @@ public class LoadCounterSetActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag = AppConstants.saveNames.get(selectedPosition);
+                AppConstants.counterSRW.delete(tag);
+                AppConstants.saveNames = AppConstants.counterSRW.getTags();
+                adapter.notifyDataSetChanged();
+            }
+        });
         Log.i(TAG, "on click listeners set");
     }
 }

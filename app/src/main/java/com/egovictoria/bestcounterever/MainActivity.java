@@ -44,13 +44,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        Log.i(TAG, "onCreate: app started");
+
         try {
             MobileAds.initialize(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Log.i(TAG, "app started");
+        Log.i(TAG, "onCreate: ads initialized");
 
         // initialize views
         newCounter = findViewById(R.id.newCounterButton);
@@ -68,12 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // initialize appConstants if it hasn't already been
-        if (!AppConstants.initialized) {
-            AppConstants.initialize(getApplicationContext());
-            AppConstants.initialized = true;
-        }
-
-        Log.i(TAG, "AppConstants initialized");
+        AppConstants.initialize(getApplicationContext());
 
         // set aesthetic settings
         try {

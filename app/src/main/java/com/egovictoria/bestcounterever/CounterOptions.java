@@ -98,9 +98,8 @@ public class CounterOptions extends AppCompatActivity {
                     finish();
                 } else {
                     AppConstants.standardDeviation = Integer.parseInt(ETValue.getText().toString());
-                    SharedPreferences.Editor editor = AppConstants.prefs.edit();
-                    editor.putInt(AppConstants.SDKey, AppConstants.standardDeviation);
-                    editor.commit();
+                    AppConstants.constantSRW.addItem(AppConstants.SDKey,
+                            String.valueOf(AppConstants.standardDeviation));
                     startActivity(new Intent(CounterOptions.this, SettingsActivity.class));
                     finish();
                 }

@@ -6,6 +6,42 @@ public class Counter {
     private int count;
     private String name;
 
+
+    public Counter(String stringCounter) {
+        boolean getName = false;
+        boolean getCount = false;
+        boolean waitOne = false;
+        String n = "";
+        String c = "";
+        for (int i = 0; i < stringCounter.length(); i++) {
+            char s = stringCounter.charAt(i);
+            if (s == '{') {
+                getName = true;
+                waitOne = true;
+            } else if (s == ','){
+                getName = false;
+                getCount = true;
+                waitOne = true;
+            } else if (s == '}') {
+                break;
+            }
+
+            if (!waitOne) {
+                if (getName) {
+                    n += s;
+                } else if (getCount) {
+                    c += s;
+                }
+            }
+
+            waitOne = false;
+        }
+
+        name = n;
+        count = Integer.parseInt(c);
+        isSelected = false;
+    }
+
     public Counter() {
         count = 0;
         isSelected = false;
@@ -54,5 +90,10 @@ public class Counter {
 
     void setCount(int x) {
         count = x;
+    }
+
+    // returns the counter object as  "{[name],[count]}"
+    String getString() {
+        return "{" + name + "," + count + "}";
     }
 }

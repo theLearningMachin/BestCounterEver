@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -104,21 +102,16 @@ public class CounterListActivity extends AppCompatActivity {
                 if (AppConstants.CurrentSaveName != null) {
                     saveNameEntry.setText(AppConstants.CurrentSaveName);
                 }
-
-                // set the on click listener
                 confirmEntry.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String name = saveNameEntry.getText().toString();
-                        try {
-                            SaveReaderWriter.saveSet(AppConstants.counters, name);
-                            Toast.makeText(getApplicationContext(),
-                                    "Successfully saved, please tap outside the dialog to dismiss",
-                                    Toast.LENGTH_SHORT).show();
-                        } catch (Exception e) {
-                            String errorCode = e.getClass().getCanonicalName();
-                            Log.i(TAG, "error when saving counter set " + errorCode);
-                        }
+                        String details = SaveLoadHelper.stringList(AppConstants.counters);
+
+                        AppConstants.counterSRW.addItem(name, details);
+                        Toast.makeText(getApplicationContext(),
+                                "Saved successfully, tap outside the dialog to dismiss",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
 
