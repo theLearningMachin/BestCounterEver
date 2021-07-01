@@ -106,7 +106,7 @@ public class CounterListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         String name = saveNameEntry.getText().toString();
-                        String details = SaveLoadHelper.stringList(AppConstants.counters);
+                        String details = SaveLoadHelper.asString(AppConstants.counters);
 
                         AppConstants.counterSRW.addItem(name, details);
                         Toast.makeText(getApplicationContext(),

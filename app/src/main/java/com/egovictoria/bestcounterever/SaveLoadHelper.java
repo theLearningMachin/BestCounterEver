@@ -11,11 +11,11 @@ public class SaveLoadHelper {
 
     // converts an ArrayList of counters into a long string using the Counter.getString method
     // and adding a comma between entries
-    public static String stringList(ArrayList<Counter> input) {
+    public static String asString(ArrayList<Counter> input) {
         String output = "";
 
         for (int i = 0; i < input.size(); i++) {
-            output += input.get(i).getString() + "|";
+            output += input.get(i).getString() + ",";
         }
 
         return output;
@@ -30,7 +30,7 @@ public class SaveLoadHelper {
         for (int i = 0; i < input.length(); i++) {
             char atI = input.charAt(i);
 
-            if (atI == '|') {
+            if (atI == ',') {
                 output.add(new Counter(stringCounter));
                 stringCounter = "";
             } else {

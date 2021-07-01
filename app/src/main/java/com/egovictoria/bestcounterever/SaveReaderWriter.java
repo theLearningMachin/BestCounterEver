@@ -19,16 +19,33 @@ public class SaveReaderWriter {
     /*
     SAVE FILE IS IN THE FOLLOWING FORMAT
 
-    <12345=      : represents a tag (entry name) of 12345, number to the right of tag is the length
-                     of the tag. Everything after the equals sign is the type of the object tied to
-                     the tag, and then the object in string format
+    <12345=         : represents a tag (entry name) of 12345, number to the right of tag is the length
+                        of the tag. Everything after the equals sign is the type of the object tied to
+                        the tag, and then the object in string format
 
-    8/12345678>  : this is the object being stored, the number to the left of the slash is the
-                     length of the object, so the reader can skip straight to the end object character
+    8/12345678>     : this is the object being stored, the number to the left of the slash is the
+                        length of the object, so the reader can skip straight to the end object character
+
+    {directory:2/<>}: everything enclosed by the two curly brackets is called a directory. This bit of text is
+                        at the beginning of each file and contains all the directory names so each input
+                        string can be observed separately from the getTags() method.
 
 
-        NOTES:
-            : If an integer maxes out the type max value, it is returned as a string
+
+            EXAMPLE FILE:
+
+{d<helloWorld/99><flake/35><killMe/28>}
+{helloWorld/99<one=10/helloWorld><two=10/helloWorld><three=10/helloWorld><four=10/helloWorld><five=10/helloWorld>}
+{flake/35<oneHand=4/true><otherHand=5/false>}{killMe/28<1=3/yes><2=5/maybe><3=2/no>}
+
+
+
+
+TODO//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+make getDirectories() return the string at the beginning of the file
+make getTags() require a specified directory
+add directories to appConstants
+test the app!!!
      */
 
     private static File directoryFile;
@@ -75,9 +92,11 @@ public class SaveReaderWriter {
         boolean gettingTag = false;
         boolean gettingLength = false;
         boolean gettingDetails = false;
+        boolean gettingDirectory = false;
         String tag = "";
         String length = "";
         String details = "";
+        String directory = "";
 
 
         try {
@@ -112,6 +131,8 @@ public class SaveReaderWriter {
                 gettingTag = false;
                 gettingLength = false;
                 Log.i(TAG, "getDirectories: \ncurrent tag: " + tag + "\ncurrent details: " + details);
+            } else if (ch == '{') {
+                gettingDirectory = true;
             }
 
 

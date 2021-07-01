@@ -18,7 +18,7 @@ public class Counter {
             if (s == '{') {
                 getName = true;
                 waitOne = true;
-            } else if (s == ','){
+            } else if (s == '|'){
                 getName = false;
                 getCount = true;
                 waitOne = true;
@@ -94,6 +94,6 @@ public class Counter {
 
     // returns the counter object as  "{[name],[count]}"
     String getString() {
-        return "{" + name + "," + count + "}";
+        return "{" + name + "|" + count + "}";
     }
 }
